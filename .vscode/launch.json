@@ -5,11 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "vmArgs": "--module-path lib --add-modules=javafx.controls,javafx.fxml",
-            "mainClass": "app.App",
+            "windows": {
+                "type": "java",
+                "name": "App",
+                "request": "launch",
+                "vmArgs": "--module-path lib/linux --add-modules=javafx.controls,javafx.fxml",
+                "mainClass": "app.App",
+            },
+            "linux": {
+                "type": "java",
+                "name": "App",
+                "request": "launch",
+                "vmArgs": "--module-path lib/win --add-modules=javafx.controls,javafx.fxml",
+                "mainClass": "app.App",
+            },
         }
     ]
 }
