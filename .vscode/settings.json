@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.controls.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.fxml.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.media.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.web.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx-swt.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.base.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.graphics.jar",
+        "/mnt/DumplyDore/JavaDev/javafx-sdk-19.0.2.1/lib/javafx.swing.jar"
+    ]
+}
