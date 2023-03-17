@@ -6,8 +6,8 @@
     "configurations": [
         {
             "type": "java",
-            "name": "App",
-            "request": "launch",
+                "name": "App",
+                "request": "launch",
             "linux": {
                 "vmArgs": "--module-path lib/linux --add-modules=javafx.controls,javafx.fxml",
             },

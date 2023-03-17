@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gameClasses.UI.EzButton;
+import gameClasses.UI.EzPopup;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -12,12 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class GameState {
@@ -28,6 +27,7 @@ public class GameState {
     public static Map<Integer, Integer> worth = new HashMap<Integer, Integer>();
     public static Scene scene;
     public static List<Player> players = new ArrayList<Player>();
+    public static Player currentPlayer;
 
     public static void drawCardsForAllPlayers(int amount) {
         for (int i = 0; i < amount; i++) {
@@ -37,68 +37,52 @@ public class GameState {
         }
     }
 
+    public static Void handleTurnDoneBtn(ActionEvent e) {
+        TurnManager.nextTurn();
+        return null;
+    }
+
+    public static Void handleConfirmBtn(ActionEvent event) {
+        currentPlayer.hand.swapCards();
+        discardDeck.addCard(GameState.dealtCard);
+        GameState.dealtCard = null;
+        currentPlayer.hand.selectedCard = null;
+        Player.turnDone = true;
+        renderPlayer(currentPlayer);
+        return null;
+    }
+
+    public static Void handleDrawBtn(ActionEvent event) {
+        // System.out.println(deck);
+
+        if (deck.getIsEmpty()) {
+            deck.addCards(discardDeck.cards);
+            discardDeck.cards.clear();
+            deck.shuffle();
+
+            new EzPopup(stage).show(stage);
+
+            renderPlayer(currentPlayer);
+        } else {
+            GameState.dealtCard = GameState.deck.drawCard();
+            currentPlayer.hand.selectedCard = null;
+            renderPlayer(currentPlayer);
+        }
+        return null;
+    }
+
     public static void renderPlayer(Player player) {
+        currentPlayer = player;
         HBox hbox;
         if (Player.turnDone) {
-            Button turnDoneButton = new Button();
-            turnDoneButton.setText("Complete Turn");
 
-            turnDoneButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    TurnManager.nextTurn();
-                }
-            });
+            Button turnDoneButton = new EzButton((e) -> handleTurnDoneBtn(e), "Complete Turn");
             hbox = new HBox(turnDoneButton);
         } else {
-            Button drawButton = new Button();
-            drawButton.setText("Draw");
+            Button drawButton = new EzButton((e) -> handleDrawBtn(e), "Draw");
 
-            drawButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    // System.out.println(deck);
+            Button confirmButton = new EzButton((e) -> handleConfirmBtn(e), "Confirm");
 
-                    if (deck.getIsEmpty()) {
-                        deck.addCards(discardDeck.cards);
-                        discardDeck.cards.clear();
-                        deck.shuffle();
-
-                        Popup pop = new Popup();
-                        Rectangle rect = new Rectangle();
-                        rect.setHeight(100);
-                        rect.setWidth(500);
-                        rect.setFill(Color.WHITE);
-                        rect.setStroke(Color.BLACK);
-                        Button okButton = new Button();
-                        okButton.setText("ok");
-
-                        okButton.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                pop.hide();
-                            }
-                        });
-                        StackPane stack = new StackPane();
-                        VBox vbox = new VBox(
-                                new Text("End of deck reached, shuffled discard deck and continuing with it"),
-                                okButton);
-                        vbox.setAlignment(Pos.CENTER);
-                        stack.getChildren().addAll(rect, vbox);
-                        pop.getContent().add(stack);
-                        pop.show(stage);
-                        renderPlayer(player);
-                    } else {
-                        GameState.dealtCard = GameState.deck.drawCard();
-                        player.hand.selectedCard = null;
-                        renderPlayer(player);
-                    }
-                }
-            });
-
-            Button confirmButton = new Button();
-            confirmButton.setText("Confirm");
-            System.out.println("dealtCard: " + GameState.dealtCard + " : " + player.hand.selectedCard);
             if (GameState.dealtCard == null) {
                 confirmButton.setDisable(true);
             }
@@ -106,17 +90,6 @@ public class GameState {
                 confirmButton.setText("Skip");
             }
 
-            confirmButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    player.hand.swapCards();
-                    discardDeck.addCard(GameState.dealtCard);
-                    GameState.dealtCard = null;
-                    player.hand.selectedCard = null;
-                    Player.turnDone = true;
-                    renderPlayer(player);
-                }
-            });
             if (GameState.dealtCard == null) {
                 hbox = new HBox(drawButton);
             } else {
