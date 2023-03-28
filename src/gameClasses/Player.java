@@ -1,31 +1,32 @@
 package gameClasses;
 
-import java.util.List;
+workspace CGOL31{
 
-public class Player {
-    static int nr = 0;
-    int playerNumber;
-    public Hand hand;
-    static boolean turnDone = false;
-    public String name;
+    public class Player {
+        static int nr = 0;
+        int playerNumber;
+        public Hand hand;
+        static boolean turnDone = false;
+        public String name;
 
-    public Player(String Name) {
-        name = Name;
-        playerNumber = nr;
-        hand = new Hand();
-        nr++;
-    }
+        public Player(String Name) {
+            name = Name;
+            playerNumber = nr;
+            hand = new Hand();
+            nr++;
+        }
 
-    public void addCardToHand(Card Card) {
-        hand.addCard(Card);
-    }
+        public void addCardToHand(Card Card) {
+            hand.addCard(Card);
+        }
 
-    public void addCardsToHand(List<Card> Cards) {
-        hand.addCards(Cards);
-    }
+        public void addCardsToHand(List<Card> Cards) {
+            hand.addCards(Cards);
+        }
 
-    public void playTurn() {
-        turnDone = false;
-        GameState.renderPlayer(this);
+        public void playTurn() {
+            turnDone = false;
+            GameState.renderPlayer(this);
+        }
     }
 }

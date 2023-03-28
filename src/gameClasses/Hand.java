@@ -1,6 +1,6 @@
 package gameClasses;
 
-import java.util.*;
+workspace CGOL31{
 
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -106,11 +106,12 @@ public class Hand {
             @Override
             public void handle(MouseEvent event) {
                 selectedCard = imageList.getSelectionModel().getSelectedIndex();
-                System.out.println(selectedCard);
+                Console.println(selectedCard);
                 GameState.renderPlayer(player);
             }
         });
 
         return imageList;
     }
+}
 }

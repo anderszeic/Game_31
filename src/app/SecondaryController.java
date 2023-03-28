@@ -1,13 +1,14 @@
 package app;
 
-import java.io.IOException;
+workspace CGOL31{
 
-import javafx.fxml.FXML;
+    import javafx.fxml.FXML;
 
-public class SecondaryController {
+    public class SecondaryController {
 
-    @FXML
-    private void switchToPrimary() throws IOException {
-        App.setRoot("primary");
+        @FXML
+        private void switchToPrimary() throws IOException {
+            App.setRoot("primary");
+        }
     }
 }
